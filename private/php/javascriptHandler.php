@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace sharedBookmarkled;
 
 class JavascriptHandler {
@@ -15,13 +9,21 @@ class JavascriptHandler {
     public function loadFiles($dm) {
         $this->domainName = $dm;
         $return = file_get_contents(ROOTPATH . 'private/sharedBookmarklet.js');
+        $return .= $this->loadGlobals();
         foreach ($this->getJavascriptFiles() as $file) {
             $return .= file_get_contents($file);
         }
-        echo '<script>';
         echo $return;
-        echo '</script>';
     }
+
+    private function loadGlobals() {
+        $return = '';
+        foreach ($this->getJavascriptFiles(ROOTPATH . 'private/globals', array(), true) as $file) {
+            $return .= file_get_contents($file);
+        }
+        return $return;
+    }
+
     /**
      * 
      * This method checks if the file iss accessable by the user
@@ -46,7 +48,15 @@ class JavascriptHandler {
         return true;
     }
 
-    private function getJavascriptFiles($dir = ROOTPATH . 'private/js', $return = array()) {
+    /**
+     * 
+     * @todo this method is also VERRY dirty, it needs to be cleaned an separeted
+     * @param type $dir the directory of the javascript files
+     * @param type $return the array that is finaly returned (needet for recursive call)
+     * @param type $access needs to be in another method, its just here to allow the access method to check if the file is accesible if the value is false. if true the return of the access method is ignored.
+     * @return array
+     */
+    private function getJavascriptFiles($dir = ROOTPATH . 'private/js', $return = array(), $access = false) {
         if ($handle = opendir($dir)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file !== '.' && $file !== '..') {
@@ -54,7 +64,7 @@ class JavascriptHandler {
                         $ttt = $this->checkFileAccess(explode('_', $file));
                         if ($ttt === 'start') {
                             $return[9999] = $dir . '/' . $file;
-                        } elseif ($ttt) {
+                        } elseif ($ttt || $access) {
                             array_push($return, $dir . '/' . $file);
                         }
                     } else {
