@@ -9,4 +9,13 @@
     console.log(demo); //here you see the function() because you need to load the new export again
     var newImport = SB.import('demo');//gets the 3
     console.log(newImport);//outputs the 3
+
+
+
+    var ajax = SB.import('ajax');//here you load this "ajax" function (which is in the globals folder)
+    //this demo ajax function works very simple, if you want to know how, look at the /private/globals/global_ajax.js file
+    ajax('somefile.php?someParam=value', function (returnObject) {
+        console.log(returnObject);
+    });
+
 })(SharedBookmarklet);

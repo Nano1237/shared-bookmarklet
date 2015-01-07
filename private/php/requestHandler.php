@@ -7,6 +7,7 @@ class RequestHandler {
     /**
      * 
      * @todo Escape the requests to prevent XSS
+     * @todo This method currently takes get params (for debug porpuse)
      * @param String|Boolean $paramName The name of the post-parameter
      * @return variable
      */

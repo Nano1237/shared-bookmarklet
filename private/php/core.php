@@ -13,7 +13,7 @@ class Core {
      *
      * All dependencie classes must be listet here. 
      * All classes will be constructed with the sharedBookmarkled namespace.
-     * If you want to add a private class as property, then you have to add a private property manualy to this class.
+     * If you want to add a private class as property, then you have to add a private property with the class name manualy to this class.
      * @var Array
      */
     private $dependencies = array(
@@ -51,6 +51,7 @@ class Core {
      * Here starts everything
      */
     public function start() {
+        //Adding header for Ajax calls to this site from somewhere else
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, POST');
         $name = $this->getDomainName($this->RequestHandler->post('domain'));
