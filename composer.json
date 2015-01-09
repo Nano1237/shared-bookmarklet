@@ -1,0 +1,11 @@
+{
+    "name": "nano1237/shared_bookmarklet",
+    "license": "APACHE",
+    "authors": [
+        {
+            "name": "Tim Ruecker",
+            "email": "tim.ruecker@ymail.com"
+        }
+    ],
+    "require": {}
+}
