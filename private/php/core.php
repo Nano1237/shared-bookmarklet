@@ -39,24 +39,14 @@ class Core {
     }
 
     /**
-     * gets the Domainname of the bookmarklet and saves it in a private property
-     * @param String $domain
-     */
-    private function getDomainName($domain) {
-        $ret = explode('.', parse_url($domain, PHP_URL_HOST));
-        return $ret[count($ret) - 2];
-    }
-
-    /**
      * Here starts everything
      */
     public function start() {
         //Adding header for Ajax calls to this site from somewhere else
         header('Access-Control-Allow-Origin: *');
         header('Access-Control-Allow-Methods: GET, POST');
-        $name = $this->getDomainName($this->RequestHandler->post('domain'));
         $this->authObject = $this->AccessHandler->authUser($this->RequestHandler->post('auth'));
-        $this->JavascriptHandler->loadFiles($name);
+        $this->JavascriptHandler->loadFiles($this->RequestHandler->post('domain'));
     }
 
 }

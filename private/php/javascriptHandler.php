@@ -4,22 +4,37 @@ namespace sharedBookmarkled;
 
 class JavascriptHandler {
 
+    /**
+     * The current Domainname saved as property
+     * @var String
+     */
     private $domainName = '';
 
-    public function loadFiles($dm) {
-        $this->domainName = $dm;
+    /**
+     * Loads the JavaScript files for the Current Domain
+     * @param Stirng $domainName The Current Domainname
+     */
+    public function loadFiles($domainName) {
+        $this->domainName = $domainName;
         $return = file_get_contents(ROOTPATH . 'private/sharedBookmarklet.js');
         $return .= $this->loadGlobals();
-        foreach ($this->getJavascriptFiles() as $file) {
-            $return .= file_get_contents($file);
+        foreach ($this->getJavascriptFiles() as $fileName) {
+            $return .= file_get_contents($fileName);
         }
         echo $return;
     }
 
+    /**
+     * Loads all global JavaScript files
+     * @todo build a function that only loads needet files!
+     * @return Stirng
+     */
     private function loadGlobals() {
         $return = '';
-        foreach ($this->getJavascriptFiles(ROOTPATH . 'private/globals', array(), true) as $file) {
-            $return .= file_get_contents($file);
+        foreach ($this->getJavascriptFiles(ROOTPATH . 'private/globals', array(), true) as $fileName) {
+            if (preg_match('/\.js$/', $fileName)) {
+                $return .= file_get_contents($fileName);
+            }
         }
         return $return;
     }
