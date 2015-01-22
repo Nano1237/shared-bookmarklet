@@ -71,7 +71,8 @@ class JavascriptHandler {
      * @param type $access needs to be in another method, its just here to allow the access method to check if the file is accesible if the value is false. if true the return of the access method is ignored.
      * @return array
      */
-    private function getJavascriptFiles($dir = ROOTPATH . 'private/js', $return = array(), $access = false) {
+    private function getJavascriptFiles($dir, $return = array(), $access = false) {
+        $dir = isset($dir) ? $dir : ROOTPATH . 'private/js';
         if ($handle = opendir($dir)) {
             while (false !== ($file = readdir($handle))) {
                 if ($file !== '.' && $file !== '..') {
